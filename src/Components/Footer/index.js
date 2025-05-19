@@ -9,6 +9,7 @@ const Footer = () => {
         Your ultimate guide to high-tea & buffet reservations — since 2024
       </p>
       <p className="footer-credit">Made by: Muhammad Asim Umair & Aqib Hanif</p>
+      {/* testing only */}
     </footer>
   );
 };
