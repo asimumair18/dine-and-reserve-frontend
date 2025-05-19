@@ -1,0 +1,40 @@
+.button-custom {
+    width: 100%;
+    color: black;
+    padding: 0px 16px 0px 16px;
+    border-radius: 12px;
+    min-width: 116px;
+    border: none;
+    cursor: pointer;
+    font-family: Poppins, sans-serif !important;
+}
+
+.button-custom:hover {
+    width: 100%;
+    color: var(--black) !important;
+    transform: scale(1.02, 1.02);
+}
+
+.yellow {
+    background-color: var(--yellow);
+}
+
+.yellow:hover {
+    background-color: var(--yellowHover) !important;
+}
+
+.brown {
+    background-color: var(--brown);
+}
+
+.brown:hover {
+    background-color: var(--brownHover) !important;
+}
+
+.purple {
+    background-color: var(--purple);
+}
+
+.purple:hover {
+    background-color: var(--purpleHover) !important;
+}

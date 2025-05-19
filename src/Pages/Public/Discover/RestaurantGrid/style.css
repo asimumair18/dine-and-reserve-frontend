@@ -1,0 +1,92 @@
+.restaurant-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    margin-top: 30px;
+  }
+  
+  .restaurant-grid .grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  
+  .restaurant-grid .card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    width: 260px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .restaurant-grid .image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+  
+  .restaurant-grid .info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .restaurant-grid .title {
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  .restaurant-grid .subtitle {
+    font-size: 13px;
+    color: #444;
+    margin: 0;
+  }
+  
+  .restaurant-grid .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .restaurant-grid .likes {
+    display: flex;
+    align-items: center;
+    background-color: #ff002214;
+    border-radius: 20px;
+    height: 35px;
+    padding: 0 10px;
+    gap: 6px;
+  }
+  
+  .restaurant-grid .rating {
+    background-color: #faef7c;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .load-more-wrapper {
+    padding-bottom: 60px;
+  }
+  
+  .load-more-wrapper .load-more {
+    background-color: #c0a382;
+    color: white;
+    border-radius: 12px;
+    font-weight: 500;
+    padding: 6px 24px;
+    border: none;
+  }
+  
+  .load-more-wrapper .load-more:hover {
+    background-color: #a17e60;
+  }

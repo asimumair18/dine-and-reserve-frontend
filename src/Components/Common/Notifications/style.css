@@ -1,0 +1,58 @@
+.navbar .notification-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    padding: 10px;
+    gap: 10px;
+}
+
+.read-list-icon {
+    background-color: #e2dfe797;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 30px;
+    margin-right: 10px;
+}
+
+.unread-list-icon {
+    background-color: #d4cddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 35px;
+    margin-right: 10px;
+}
+
+.mark-as-read {
+    cursor: pointer;
+}
+
+.notification-date {
+    font-size: 12px;
+    color: #74747491;
+}
+
+.dropdown-list .ant-dropdown-menu-item {
+    padding: 0 !important;
+    border-radius: 0 !important;
+}
+
+.read {
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.unread {
+    font-weight: 700;
+    background-color: #d4cddd3f;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+}

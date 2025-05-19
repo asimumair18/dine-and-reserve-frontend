@@ -1,0 +1,79 @@
+.signin {
+    min-height: 100vh;
+    background-color: #f5f2e7;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+  }
+  
+  .signin .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+  }
+  
+  .signin .container img {
+    cursor: pointer;
+  }
+  
+  .signin .heading {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 25px;
+    margin-bottom: 0;
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .signin .submit-button {
+    width: 100%;
+    background-color: #b76e79;
+    color: #f5f2e7;
+    padding: 0px 16px;
+    border-radius: 12px;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .signin .submit-button:hover {
+    background-color: #b96370 !important;
+    color: #f5f2e7 !important;
+    transform: scale(1.02);
+  }
+  
+  .signin .back-button {
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    padding: 0px 16px;
+    border-radius: 12px;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    border: 1px solid #d1d5db;
+  }
+  
+  .signin .back-button:hover {
+    background-color: #f8f8f8;
+    transform: scale(1.02);
+  }
+  
+  .signin .message-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 10px;
+  }
+  

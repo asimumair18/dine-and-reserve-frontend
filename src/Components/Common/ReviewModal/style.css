@@ -1,0 +1,34 @@
+.review-modal .double-items {
+    display: flex;
+    gap: 10px;
+}
+
+.review-modal .double-item {
+    width: 50%;
+}
+
+.review-modal .ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.review-modal .submit-button {
+    margin-top: 20px;
+    width: 100%;
+    width: 100%;
+    background-color: var(--yellow);
+    color: black;
+    padding: 0px 16px 0px 16px;
+    border-radius: 5px;
+    min-width: 116px;
+    font-family: Poppins, sans-serif !important;
+    cursor: pointer;
+}
+
+.review-modal .submit-button:hover {
+    width: 100%;
+    background-color: var(--yellowHover) !important;
+    color: black !important;
+    transform: scale(1.02, 1.02);
+}

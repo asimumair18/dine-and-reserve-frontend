@@ -1,0 +1,29 @@
+.footer {
+    height: 120px;
+    padding: 40px 20px;
+    text-align: center;
+    font-family: Poppins, sans-serif;
+    color: #333;
+    line-height: 1.6;
+    border-top: 1px solid #ddd;
+  }
+  
+  .footer-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+  
+  .footer-subtitle {
+    font-size: 14px;
+    font-weight: 400;
+    margin: 5px 0;
+  }
+  
+  .footer-credit {
+    font-size: 12px;
+    font-weight: 300;
+    color: #666;
+    margin-top: 10px;
+  }
+  

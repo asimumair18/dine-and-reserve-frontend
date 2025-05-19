@@ -1,0 +1,15 @@
+# Ignore dependencies
+node_modules/
+
+# Ignore build outputs
+.next/
+dist/
+build/
+
+# Ignore environment and logs
+.env
+*.log
+
+# OS-specific
+.DS_Store
+Thumbs.db
