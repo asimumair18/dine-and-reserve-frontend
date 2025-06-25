@@ -1,0 +1,19 @@
+.form-container .ant-select {
+  border-radius: 6px !important;
+  min-height: 40px;
+}
+
+.form-container .ant-select-selector {
+  padding: 6px 11px !important;
+  font-size: 14px;
+  font-family: Poppins, sans-serif !important;
+}
+
+.form-container .ant-form-item-label > label {
+  font-weight: 500;
+  color: #030303;
+}
+
+.user-account-settings .ant-select-selector {
+  cursor: pointer !important;
+}

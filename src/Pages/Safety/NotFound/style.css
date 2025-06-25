@@ -1,0 +1,36 @@
+.error-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  background-color: #fdf8f3;
+  padding: 40px 20px;
+}
+
+.error-logo {
+  width: 160px;
+  margin-bottom: 20px;
+}
+
+.error-page h1 {
+  font-size: 40px;
+  font-weight: 600;
+  color: #b76e79;
+  margin-bottom: 10px;
+}
+
+.error-page p {
+  font-size: 16px;
+  font-weight: 400;
+  color: #444;
+  margin-bottom: 24px;
+}
+
+.submit-button {
+  background: #b76e79 !important;
+  border: none;
+  font-weight: 500;
+}

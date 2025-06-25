@@ -1,0 +1,183 @@
+.user-account-settings {
+  padding: 40px 10px;
+}
+
+.account-details {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media screen and (max-width: 650px) {
+  .user-account-settings {
+    padding: 10px 20px;
+  }
+
+  .account-details {
+    flex-direction: column;
+  }
+}
+
+.user-account-settings .left-container {
+  flex: 1;
+}
+
+.user-account-settings .left-container .section-title {
+  color: #030303;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.user-account-settings .left-container .section-info {
+  color: #030303;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+
+.user-account-settings .right-container {
+  flex: 3;
+  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.06), 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.user-account-settings .right-container .form-container,
+.user-account-settings .right-container .form-container-passwords {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 0 24px;
+  border-radius: 5px 5px 0 0;
+  position: relative;
+}
+
+.user-account-settings .right-container .form-container .form-title,
+.user-account-settings .right-container .form-container-passwords .form-title {
+  color: #030303;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.user-account-settings .right-container .form-container .profile-info,
+.user-account-settings .right-container .form-container-passwords .profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0 24px 0;
+}
+
+.user-account-settings .profile-info .profile-txt {
+  color: #030303;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.user-account-settings .profile-info img {
+  height: 50px;
+  width: 50px;
+  border-radius: 25px;
+}
+
+.user-account-settings .form-container .form-row,
+.user-account-settings .right-container .form-container-passwords .form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.user-account-settings .right-container .form-container .ant-form-item,
+.user-account-settings .right-container .form-container-passwords .ant-form-item {
+  color: #030303;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.user-account-settings .right-container .form-container .form-row .ant-form-item,
+.user-account-settings .right-container .form-container-passwords .form-row .ant-form-item {
+  display: inline-block;
+  width: 50%;
+}
+
+@media screen and (max-width: 500px) {
+
+  .user-account-settings .form-container .form-row,
+  .user-account-settings .form-container-passwords .form-row {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .user-account-settings .right-container .form-container .form-row .ant-form-item,
+  .user-account-settings .right-container .form-container-passwords .form-row .ant-form-item {
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+.user-account-settings .right-container .form-footer {
+  display: flex;
+  background-color: #E8E1D1;
+  padding: 12px 24px;
+  justify-content: right;
+  border-radius: 0 0 5px 5px;
+}
+
+.user-account-settings .right-container .form-footer .ant-btn:hover {
+  color: #030303;
+}
+
+.password-and-security {
+  display: flex;
+  margin-top: 40px;
+  gap: 24px;
+}
+
+@media screen and (max-width: 650px) {
+  .password-and-security {
+    flex-direction: column;
+  }
+}
+
+.password-and-security .right-container .form-container .form-title,
+.user-account-settings .right-container .form-container-passwords .form-title {
+  margin-bottom: 16px;
+}
+
+.user-account-settings .phone-input input {
+  height: 30px;
+  border: 1px solid #d9d9d9;
+  padding: 0px 11px;
+  border-radius: 6px;
+  width: 100% !important;
+}
+
+.user-account-settings .phone-input input:focus,
+.user-account-settings .phone-input input:active {
+  border-color: #4096ff;
+  outline: none;
+}
+
+.user-account-settings .form-container {
+  min-height: 484px;
+}
+
+@media (max-width: 500px) {
+  .user-account-settings .form-container {
+    min-height: 614px;
+  }
+}
+
+.full-screen-overlay {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}

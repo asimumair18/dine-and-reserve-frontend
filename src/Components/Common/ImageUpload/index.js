@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { PlusOutlined } from "@ant-design/icons";
-import Photo from "../../../Assets/Images/profile.png";
+import Photo from "../../../Assets/profile-picture.png";
 
 const ImageUpload = ({ setImageData, imageData, setImageObj }) => {
   const [fileList, setFileList] = useState([]);

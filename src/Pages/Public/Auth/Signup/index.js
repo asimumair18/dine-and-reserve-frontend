@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./style.css";
 import Logo from "../../../../Assets/logo-dark.png";
-import { Button, Form, Input, notification, Select, Checkbox } from "antd";
+import { Button, Form, Input, Select, Checkbox } from "antd";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
+import { toast } from "react-toastify";
+
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -13,15 +15,41 @@ const Signup = () => {
     const [checked, setChecked] = useState(false);
     const [role, setRole] = useState(null);
 
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         setLoading(true);
-        // You can store data locally or process it further here
-        console.log("Signup Values:", values);
+        const { name, email, phone, role, password, address } = values;
 
-        // Simulate successful registration
-        setLoading(false);
-        navigate("/login");
+        try {
+            const res = await fetch("http://localhost:5000/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    fullName: name,
+                    email,
+                    phone,
+                    userType: role === "restaurant" ? "restaurant" : "diner",
+                    restaurantAddress: address || "",
+                    password,
+                }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || "Signup failed");
+            }
+
+            toast.success("Registration successful! Please log in.");
+            navigate("/login");
+        } catch (err) {
+            toast.error(err.message || "Signup failed");
+        } finally {
+            setLoading(false);
+        }
     };
+
+
+
 
     useEffect(() => {
         const currentRole = form.getFieldValue("role");
@@ -133,7 +161,7 @@ const Signup = () => {
                             onClick={() => {
                                 setPage(2);
                             }}
-                            className="submit-button margin-top60"
+                            className="submit-button"
                         >
                             Next
                         </Button>
@@ -187,13 +215,13 @@ const Signup = () => {
                             <Input.Password />
                         </Form.Item>
 
-                        <div className="message-container">
+                        {/* <div className="message-container">
                             <Checkbox
                                 checked={checked}
                                 onChange={(e) => setChecked(e.target.checked)}
                             />
                             <p>Agree to receive notifications</p>
-                        </div>
+                        </div> */}
 
                         <Form.Item>
                             <div className="message-container footer">
@@ -201,7 +229,7 @@ const Signup = () => {
                                 <Button
                                     type="primary"
                                     htmlType="submit"
-                                    className="submit-button"
+                                    className="submit-button margin-top0"
                                     disabled={loading}
                                     loading={loading}
                                 >

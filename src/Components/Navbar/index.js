@@ -10,7 +10,7 @@ import { UserContext } from "../../Context/UserContext";
 import Logo from "../../Assets/logo-dark.png";
 import "./style.css";
 
-const Navbar = ({ title = "Discover", buttons = true }) => {
+const Navbar = ({ title = "Discover", buttons = true, style }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { userData, setUserData, setUserToken } = useContext(UserContext);
@@ -21,7 +21,11 @@ const Navbar = ({ title = "Discover", buttons = true }) => {
       label: "Settings",
       icon: <SettingOutlined />,
       onClick: () => {
-        navigate("/user/settings/account");
+        if (userData?.role === "restaurant") {
+          navigate("/restaurant/settings/restaurant-details");
+        } else {
+          navigate("/user/settings/account-details");
+        }
       },
     },
     {
@@ -42,7 +46,7 @@ const Navbar = ({ title = "Discover", buttons = true }) => {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="navbar">
+    <div className="navbar" style={style}>
       {isHome ? (
         <img
           src={Logo}

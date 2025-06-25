@@ -3,19 +3,55 @@ import "./style.css";
 import Logo from "../../../../Assets/logo-dark.png";
 import { Button, Checkbox, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../../../Context/UserContext";
+import profilePic from "../../../../Assets/profile-picture.png";
+import { toast } from "react-toastify";
+
 
 const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { setUserData, setUserToken } = useContext(UserContext);
 
-  const onFinish = (values) => {
-    console.log("Login Values:", values);
+
+  const onFinish = async (values) => {
+    const { email, password } = values;
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid credentials");
+      }
+
+      setUserData({
+        username: data.user.email,
+        email: data.user.email,
+        name: data.user.fullName,
+        role: data.user.userType,
+        profile_photo: data.user.profilePhoto || profilePic,
+        _id: data.user._id,
+      });
+
+      setUserToken(data.token);
+      localStorage.setItem("token", data.token);
+
+      navigate(data.user.userType === "restaurant" ? "/restaurant/dashboard" : "/");
+    } catch (err) {
+      toast.error(err.message || "Login failed");
+    } finally {
       setLoading(false);
-      navigate("/"); // Simulated login
-    }, 1000);
+    }
   };
+
 
   return (
     <div className="signin">
@@ -51,13 +87,13 @@ const Login = () => {
             <Input.Password />
           </Form.Item>
 
-          <div className="message-container j-space-between">
+          {/* <div className="message-container j-space-between">
             <div className="message-container">
               <Checkbox />
               <p>Remember me</p>
             </div>
             <a href="/forgot-password">Forgot your password?</a>
-          </div>
+          </div> */}
 
           <Form.Item>
             <div className="message-container">

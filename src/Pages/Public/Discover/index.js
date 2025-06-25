@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 import RestaurantGrid from "./RestaurantGrid";
-import { Input, Select } from "antd";
+import { Input, Select, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../../Components/Navbar";
-
+import Footer from "../../../Components/Footer";
 
 const { Search } = Input;
 
 const Discover = () => {
-
   const navigate = useNavigate();
+  const [filter, setFilter] = useState("");
+  const [sortBy, setSortBy] = useState("");
+
   const handleSearch = (value) => {
-    navigate("/search", { state: { keyword: value } });
+    navigate(`/search?q=${encodeURIComponent(value)}`);
+  };
+
+  const handleClear = () => {
+    setFilter("");
+    setSortBy("");
   };
 
   return (
     <div className="discover">
-
       <Navbar title="Discover" />
       <hr />
 
@@ -35,26 +41,31 @@ const Discover = () => {
       <div className="body-container">
         <div className="filter-options">
           <Select
-            defaultValue="Filters (Note: With A Checkbox Item List)"
-            style={{ width: 300 }}
+            value={filter || "none"}
+            style={{ width: 200 }}
+            onChange={(val) => setFilter(val === "none" ? "" : val)}
             options={[
-              { value: "veg", label: "Vegetarian" },
-              { value: "nonveg", label: "Non-Vegetarian" },
+              { value: "none", label: "All Types" },
+              { value: "high-tea", label: "High-Tea" },
+              { value: "buffet", label: "Buffet" },
             ]}
           />
           <Select
-            defaultValue="Sort By"
+            value={sortBy || "none"}
             style={{ width: 150 }}
+            onChange={(val) => setSortBy(val === "none" ? "" : val)}
             options={[
-              { value: "popular", label: "Most Popular" },
-              { value: "rating", label: "Highest Rated" },
+              { value: "none", label: "Default" },
+              { value: "rating", label: "Most Popular" },
             ]}
           />
         </div>
+
         <div className="restaurants-wrapper">
-          <RestaurantGrid restaurants={[]} isLoading={false} />
+          <RestaurantGrid filter={filter} sortBy={sortBy} />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
