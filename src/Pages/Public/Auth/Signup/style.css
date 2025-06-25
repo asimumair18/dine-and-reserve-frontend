@@ -60,6 +60,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 }
 
 .signup .submit-button:hover {
@@ -153,6 +154,6 @@
     font-weight: 500;
   }
 
-  .margin-top60{
-    margin-top: 60px;
+  .margin-top0{
+    margin-top: 0px !important;
   }

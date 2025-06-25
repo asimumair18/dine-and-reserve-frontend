@@ -1,0 +1,78 @@
+.left-container {
+  flex: 1;
+}
+.right-container {
+  flex: 3;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 3px rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+.form-container,
+.form-container-passwords {
+  padding: 24px;
+  border-radius: 5px 5px 0 0;
+}
+.section-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+.section-info {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
+.form-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+/* two-column within a form */
+.form-row {
+  display: flex;
+  gap: 24px;
+}
+.form-row .ant-form-item {
+  flex: 1;
+}
+
+/* footer (confirm button bar) */
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  background: #E8E1D1;
+  padding: 12px 24px;
+  border-radius: 0 0 5px 5px;
+}
+.submit-button {
+  background: #b76e79;
+  border: none;
+}
+
+/* horizontal divider */
+.divider-line {
+  border: none;
+  height: 2px;
+  background: #ccc;
+  margin: 40px 0;
+}
+
+.dietary-info-section {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 650px) {
+  .dietary-info-section {
+    flex-direction: column;
+  }
+}
+
+.helper-text {
+  font-size: 12px;
+  color: #999;
+  font-weight: 300;
+  margin-top: 4px;
+}
+

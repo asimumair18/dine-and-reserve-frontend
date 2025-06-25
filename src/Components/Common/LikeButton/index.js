@@ -3,19 +3,36 @@ import { useState } from "react";
 import "./style.css";
 
 const LikeButton = ({
-  selectedInitialState,
+  isFavorite = false,
+  onToggle,
   disabled = false,
 }) => {
-  const [selected, setSelected] = useState(selectedInitialState);
+  const [selected, setSelected] = useState(isFavorite);
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = () => {
-    if (disabled) return;
-    setSelected(!selected);
+  const handleClick = async () => {
+    if (disabled || loading) return;
+    console.log("LikeButton clicked");
+
+    setLoading(true);
+    try {
+      if (typeof onToggle === "function") {
+        await onToggle();
+        setSelected((prev) => !prev); // Toggle heart icon state
+      }
+    } catch (err) {
+      console.error("Favorite toggle failed:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="like" onClick={handleChange}>
-      <HeartFilled className={`${selected ? "selected-" : ""}like-button`} />
+    <div className="like" onClick={handleClick}>
+      <HeartFilled
+        className={`${selected ? "selected-" : ""}like-button`}
+        spin={loading}
+      />
     </div>
   );
 };

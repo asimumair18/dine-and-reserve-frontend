@@ -1,30 +1,76 @@
-import React, { useState } from "react";
-// import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import "./style.css";
-import { Button, Form, Input, Select, Checkbox } from "antd";
+import {
+    Button,
+    Form,
+    Input,
+    Select,
+    Checkbox,
+} from "antd";
 import { DollarOutlined, HomeFilled } from "@ant-design/icons";
 import { MdWhatsapp } from "react-icons/md";
 import { IoLogoInstagram } from "react-icons/io5";
-import RestaurantImage from "../../../Assets/restaurant-display-img.png";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../../Components/Navbar/index";
 
-
-const dummyData = Array(4).fill({
-    name: "Villa – The Great Buffet",
-    location: "Lake City",
-    contact: "0304 1110852",
-    instagram: "TheVilla",
-    address:
-        "Plot No.C43-25, Canal Commercial, Street 44, Canal Commercial, Block M 3 A Lake City, Lahore, 54000",
-    rating: "4.9",
-    reviews: "1920",
-    tags: ["#SpecialOffer", "#Popular"],
-});
-
 const SearchResults = () => {
-    const [searchText, setSearchText] = useState("Searched Text");
+    const location = useLocation();
     const navigate = useNavigate();
+
+
+    const [searchText, setSearchText] = useState("");
+    const [restaurants, setRestaurants] = useState([]);
+    const [service, setService] = useState("");
+    const [sortBy, setSortBy] = useState("");
+    const [locFilter, setLocFilter] = useState("");
+
+    const fetchResults = async () => {
+        const params = new URLSearchParams({
+            keyword: searchText,
+            location: locFilter,
+            service,
+            sort: sortBy,
+        });
+
+        try {
+            const res = await fetch(`/api/restaurants/search?${params}`);
+            const data = await res.json();
+            setRestaurants(data);
+        } catch (err) {
+            console.error("Failed to fetch search results:", err);
+        }
+    };
+
+    useEffect(() => {
+        if (searchText) fetchResults();
+    }, [searchText, service, sortBy, locFilter]);
+
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+        const urlSearch = query.get("q") || "";
+
+        // Use URL param if exists, otherwise localStorage
+        const initialSearch = urlSearch || localStorage.getItem("lastSearch") || "";
+        setSearchText(initialSearch);
+
+        if (urlSearch) {
+            localStorage.setItem("lastSearch", urlSearch);
+        }
+    }, [location.search]);
+
+    const handleSearch = (val) => {
+        // Update URL when searching
+        navigate(`/search?q=${encodeURIComponent(val)}`, { replace: true });
+        setSearchText(val);
+        localStorage.setItem("lastSearch", val);
+    };
+
+    const getRatingTag = (rating) => {
+        if (!rating || rating === 0) return "Not Rated";
+        if (rating < 3) return "Poorly Rated";
+        if (rating <= 4.5) return "Well Rated";
+        return "Highly Rated";
+    };
 
     return (
         <div className="search">
@@ -32,9 +78,7 @@ const SearchResults = () => {
             <hr />
             <div className="header">
                 <div className="text-container">
-                    <p className="message">
-                        20 filtered results for: Lahore, Continental, 2 Guests
-                    </p>
+                    <p className="message">Filtered search results</p>
                     <p className="search-text">'{searchText}'</p>
                 </div>
                 <Input.Search
@@ -42,25 +86,32 @@ const SearchResults = () => {
                     className="searchBar"
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
-                    onSearch={(val) => console.log("Search:", val)}
+                    onSearch={handleSearch}
                 />
             </div>
             <hr />
             <div className="main-body">
                 <div className="filters">
                     <p className="filter-heading">Filters</p>
-                    <Form layout="vertical">
+                    <Form layout="vertical" onFinish={fetchResults}>
                         <Form.Item label="Location">
-                            <Input placeholder="e.g. Lahore" />
+                            <Input
+                                placeholder="e.g. Lahore"
+                                value={locFilter}
+                                onChange={(e) => setLocFilter(e.target.value)}
+                            />
                         </Form.Item>
                         <Form.Item label="Service">
-                            <Input placeholder="e.g. High Tea" />
-                        </Form.Item>
-                        <Form.Item label="Minimum Price" name="min_price">
-                            <Input type="number" prefix={<DollarOutlined />} />
-                        </Form.Item>
-                        <Form.Item label="Maximum Price" name="max_price">
-                            <Input type="number" prefix={<DollarOutlined />} />
+                            <Select
+                                placeholder="e.g. High Tea"
+                                value={service || undefined}
+                                onChange={(val) => setService(val)}
+                                allowClear
+                                options={[
+                                    { value: "high-tea", label: "High-Tea" },
+                                    { value: "buffet", label: "Buffet" },
+                                ]}
+                            />
                         </Form.Item>
                         <Form.Item>
                             <Button htmlType="submit" className="submit-button">
@@ -68,19 +119,20 @@ const SearchResults = () => {
                             </Button>
                         </Form.Item>
                     </Form>
+
                     <hr />
                     <p className="filter-heading">Popular Filters</p>
                     <Checkbox.Group
-                        options={["item01", "item01", "item01", "item01"]}
-                        defaultValue={["item01"]}
-                        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                        options={["Fast Service", "Outdoor Seating"]}
+                        defaultValue={[]}
+                        disabled
                     />
                     <hr />
                     <p className="filter-heading">Customer Ratings</p>
                     <Checkbox.Group
-                        options={["item01", "item01", "item01", "item01"]}
-                        defaultValue={["item01"]}
-                        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                        options={["4+ stars", "3+ stars"]}
+                        defaultValue={[]}
+                        disabled
                     />
                 </div>
 
@@ -88,60 +140,81 @@ const SearchResults = () => {
                     <div className="sort">
                         <Select
                             defaultValue="Sort By"
+                            onChange={(val) => setSortBy(val)}
                             options={[
-                                { label: "Highest Rated", value: "rated" },
-                                { label: "Most Reviewed", value: "reviews" },
+                                { label: "Highest Rated", value: "rating" },
+                                { label: "Most Reviewed", value: "reviewCount" },
                             ]}
                             style={{ width: 150 }}
                         />
                     </div>
+
                     <div className="list-items">
-                        {dummyData.map((item, index) => (
-                            <div className="item-card" key={index}>
-                                <img src={RestaurantImage} alt="Restaurant" />
+                        {restaurants.map((item, index) => (
+                            <div className="item-card" key={item._id || index}>
+                                <img
+                                    src={
+                                        item.displayImages?.[0]
+                                            ? item.displayImages[0].startsWith("/uploads/")
+                                                ? item.displayImages[0]
+                                                : `/uploads/${item.displayImages[0]}`
+                                            : "/fallback.jpg"
+                                    }
+                                    alt="Restaurant"
+                                />
                                 <div className="body-container">
                                     <div className="name-container">
                                         <div>
-                                            <p className="heading">{item.name}</p>
-                                            <p className="item-text zero-margin">{item.location}</p>
+                                            <p className="heading">{item.fullName}</p>
+                                            <p className="item-text zero-margin">{item.description || "No Description Added"}</p>
                                         </div>
                                         <div className="name-container">
                                             <div>
-                                                <p className="subheading zero-margin">Highly Rated</p>
-                                                <p className="item-text zero-margin">{item.reviews} Reviews</p>
+                                                <p className="subheading zero-margin">
+                                                    {getRatingTag(item.averageRating)}
+                                                </p>
+                                                <p className="item-text zero-margin">
+                                                    {item.reviewCount || 0} Reviews
+                                                </p>
                                             </div>
-                                            <div className="rating">{item.rating}</div>
+                                            <div className="rating">
+                                                {item.averageRating && item.averageRating > 0
+                                                    ? item.averageRating.toFixed(1)
+                                                    : "Not Rated"}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="shop-info zero-margin">
+                                    <div className="shop-info combined-line">
                                         <MdWhatsapp color="green" className="social-icon" />
-                                        <span>{item.contact}</span>
-                                    </div>
-                                    <div className="shop-info">
-                                        <IoLogoInstagram color="purple" className="social-icon" />
-                                        <span>@{item.instagram}</span>
+                                        <span>{item.phone ? `+${item.phone}` : "Contact Info Not Shown"}</span>
+                                        <IoLogoInstagram color="purple" className="social-icon" style={{ marginLeft: "20px" }} />
+                                        <span>@{item.instagram || "Instagram Not Added"}</span>
                                     </div>
 
                                     <div className="values zero-margin">
                                         <HomeFilled />
-                                        <p className="item-text zero-margin">{item.address}</p>
+                                        <p className="item-text zero-margin">{item.restaurantAddress}</p>
                                     </div>
 
                                     <div className="name-container">
                                         <div>
                                             <p className="subheading">Services Offered</p>
                                             <div className="services">
-                                                {item.tags.map((tag, i) => (
-                                                    <div className="service" key={i}>
-                                                        <p className="item-text zero-margin">{tag}</p>
-                                                    </div>
-                                                ))}
+                                                {item.perks && item.perks.length > 0 ? (
+                                                    item.perks.map((perk, i) => (
+                                                        <div className="service" key={i}>
+                                                            <p className="item-text zero-margin">#{perk}</p>
+                                                        </div>
+                                                    ))
+                                                ) : (
+                                                    <p className="item-text zero-margin">None</p>
+                                                )}
                                             </div>
                                         </div>
                                         <Button
                                             className="service-button"
-                                            onClick={() => navigate(`/restaurant/${index + 1}`)}
+                                            onClick={() => navigate(`/restaurant/${item._id}`)}
                                         >
                                             See Services
                                         </Button>
@@ -149,12 +222,14 @@ const SearchResults = () => {
                                 </div>
                             </div>
                         ))}
+                        {restaurants.length === 0 && (
+                            <p className="empty-text">No matching restaurants found.</p>
+                        )}
                     </div>
                 </div>
             </div>
         </div>
     );
 };
-
 
 export default SearchResults;

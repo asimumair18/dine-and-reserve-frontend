@@ -6,14 +6,18 @@ import {
   Modal,
   Select,
   Upload,
+  message
 } from "antd";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../../Context/UserContext";
 import { PlusOutlined } from "@ant-design/icons";
 import "./style.css";
 
 const { Option } = Select;
 
 const ReviewModal = ({ open, setOpen, shopId, setRefresh }) => {
+  const { userData } = useContext(UserContext);
+
   const [loading, setLoading] = useState(false);
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
 
@@ -25,42 +29,53 @@ const ReviewModal = ({ open, setOpen, shopId, setRefresh }) => {
     setUploadedPhotos(fileList);
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     setLoading(true);
+    console.log("User Data from Context:", userData);
 
-    // Simulated review creation (no backend)
-    const newReview = {
-      id: Date.now(),
-      user: 1,
-      user_name: "You",
-      date: new Date().toISOString().slice(0, 10),
-      profile_photo: null,
-      average_rating:
-        (Number(values.service) +
-          Number(values.clean) +
-          Number(values.hospitality) +
-          Number(values.ambiance) +
-          Number(values.value)) /
-        5,
+    const reviewData = {
+      restaurantId: shopId,
+      userId: userData?._id,
+      email: userData?.username,
+      userPhoto: userData?.profilePhoto || null,
+      dateOfVisit: values.date_of_visit.format("YYYY-MM-DD"),
+      duration: Number(values.treatment_duration),
+      amountSpent: values.treatment_spending,
       remarks: values.remarks,
-      date_of_visit: values.date_of_visit.format("YYYY-MM-DD"),
-      treatment_duration: values.treatment_duration,
-      treatment_spending: values.treatment_spending,
       service: Number(values.service),
       clean: Number(values.clean),
       hospitality: Number(values.hospitality),
       ambiance: Number(values.ambiance),
       value: Number(values.value),
-      photo_urls: uploadedPhotos.map(() => null),
+      photoUrls: [],
     };
+    
+    console.log("Review Data:", reviewData);
+    try {
+      const res = await fetch("http://localhost:5000/api/reviews/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("token"), // ✅ Add token
+        },
+        body: JSON.stringify(reviewData),
+      });
+      console.log("Token:", localStorage.getItem("token"));
 
-    // Update parent state
-    setRefresh((prev) => !prev);
+      if (!res.ok) {
+        const errRes = await res.json();
+        throw new Error(errRes.message || "Failed to submit review");
+      }
 
-    setTimeout(() => {
-      setLoading(false);
+      message.success("Review submitted successfully!");
+      setRefresh((prev) => !prev);
       setOpen(false);
-    }, 500);
+    } catch (err) {
+      message.error(err.message);
+      console.error("Error submitting review:", err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -99,24 +114,24 @@ const ReviewModal = ({ open, setOpen, shopId, setRefresh }) => {
 
         <div className="double-items">
           <Form.Item label="Service" name="service" className="double-item" required>
-            <Select>{[...Array(10)].map((_, i) => <Option key={i+1} value={i+1}>{i+1}</Option>)}</Select>
+            <Select>{[...Array(10)].map((_, i) => <Option key={i + 1} value={i + 1}>{i + 1}</Option>)}</Select>
           </Form.Item>
           <Form.Item label="Cleanliness" name="clean" className="double-item" required>
-            <Select>{[...Array(10)].map((_, i) => <Option key={i+1} value={i+1}>{i+1}</Option>)}</Select>
+            <Select>{[...Array(10)].map((_, i) => <Option key={i + 1} value={i + 1}>{i + 1}</Option>)}</Select>
           </Form.Item>
         </div>
 
         <div className="double-items">
           <Form.Item label="Hospitality" name="hospitality" className="double-item" required>
-            <Select>{[...Array(10)].map((_, i) => <Option key={i+1} value={i+1}>{i+1}</Option>)}</Select>
+            <Select>{[...Array(10)].map((_, i) => <Option key={i + 1} value={i + 1}>{i + 1}</Option>)}</Select>
           </Form.Item>
           <Form.Item label="Ambiance" name="ambiance" className="double-item" required>
-            <Select>{[...Array(10)].map((_, i) => <Option key={i+1} value={i+1}>{i+1}</Option>)}</Select>
+            <Select>{[...Array(10)].map((_, i) => <Option key={i + 1} value={i + 1}>{i + 1}</Option>)}</Select>
           </Form.Item>
         </div>
 
         <Form.Item label="Value" name="value" required>
-          <Select>{[...Array(10)].map((_, i) => <Option key={i+1} value={i+1}>{i+1}</Option>)}</Select>
+          <Select>{[...Array(10)].map((_, i) => <Option key={i + 1} value={i + 1}>{i + 1}</Option>)}</Select>
         </Form.Item>
 
         <Form.Item label="Remarks" name="remarks" required>

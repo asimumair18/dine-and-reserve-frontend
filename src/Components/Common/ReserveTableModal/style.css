@@ -1,0 +1,27 @@
+.reserve-modal .ant-modal-content {
+  background-color: #F5F2E7;
+  padding: 0px;
+}
+
+.reserve-modal .ant-modal-title {
+  height: 56px;
+  padding-top: 15px;
+  padding-left: 15px;
+  font-family: Poppins;
+}
+
+.reserve-modal .ant-form{
+    padding: 24px;
+}
+
+.confirm-button {
+  background-color: #e26274;
+  color: white;
+  width: 111px;
+  border-radius: 8px;
+}
+
+.confirm-button:hover {
+  background-color: #cd3549 !important;
+  color: white !important;
+}
